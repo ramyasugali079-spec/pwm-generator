@@ -1,0 +1,6 @@
+Duty Cycle Input	Approx. Duty Cycle	PWM Output
+0	0%	Always LOW
+64	25%	25% HIGH
+128	50%	50% HIGH
+192	75%	75% HIGH
+255	≈100%	Almost always HIGH

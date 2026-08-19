@@ -1,0 +1,91 @@
+# PWM Generator using Verilog
+
+## Description
+
+This project implements a PWM (Pulse Width Modulation) generator
+using Verilog HDL.
+
+PWM is commonly used for:
+
+- Motor speed control
+- LED brightness control
+- Servo control
+- Power control
+
+The design uses an 8-bit counter and an 8-bit duty-cycle input.
+
+## Parameters
+
+Counter resolution:
+
+    8 bits
+
+Counter range:
+
+    0 to 255
+
+Duty cycle:
+
+    0% to 100%
+
+## Inputs
+
+    clk        : Clock signal
+    reset      : Active-high reset
+    duty_cycle : 8-bit duty-cycle control
+
+## Output
+
+    pwm_out    : PWM output signal
+
+## Duty Cycle
+
+    duty_cycle = 0
+        PWM = 0%
+
+    duty_cycle = 64
+        PWM ≈ 25%
+
+    duty_cycle = 128
+        PWM ≈ 50%
+
+    duty_cycle = 192
+        PWM ≈ 75%
+
+    duty_cycle = 255
+        PWM ≈ 100%
+
+## Operation
+
+An 8-bit counter continuously counts:
+
+    0 -> 1 -> 2 -> ... -> 255 -> 0
+
+PWM output is HIGH when:
+
+    counter < duty_cycle
+
+Otherwise:
+
+    PWM output = LOW
+
+## Files
+
+    pwm_generator.v
+        PWM RTL design.
+
+    tb_pwm_generator.v
+        Testbench.
+
+    README.md
+        Project documentation.
+
+## Simulation
+
+Compile:
+
+    iverilog -o pwm_tb pwm_generator.v tb_pwm_generator.v
+
+Run:
+
+    vvp pwm_tb

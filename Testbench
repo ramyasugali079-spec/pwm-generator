@@ -1,0 +1,81 @@
+`timescale 1ns/1ps
+
+module tb_pwm_generator;
+
+    reg clk;
+    reg reset;
+
+    reg [7:0] duty_cycle;
+
+    wire pwm_out;
+
+    // Instantiate PWM generator
+    pwm_generator DUT (
+        .clk(clk),
+        .reset(reset),
+        .duty_cycle(duty_cycle),
+        .pwm_out(pwm_out)
+    );
+
+    // 10 ns clock period
+    always #5 clk = ~clk;
+
+    initial begin
+
+        $dumpfile("pwm.vcd");
+        $dumpvars(0, tb_pwm_generator);
+
+        clk = 1'b0;
+        reset = 1'b1;
+        duty_cycle = 8'd0;
+
+        // Reset
+        #12;
+        reset = 1'b0;
+
+        // -------------------------
+        // 25% DUTY CYCLE
+        // -------------------------
+        duty_cycle = 8'd64;
+
+        #2600;
+
+        // -------------------------
+        // 50% DUTY CYCLE
+        // -------------------------
+        duty_cycle = 8'd128;
+
+        #2600;
+
+        // -------------------------
+        // 75% DUTY CYCLE
+        // -------------------------
+        duty_cycle = 8'd192;
+
+        #2600;
+
+        // -------------------------
+        // 100% DUTY CYCLE
+        // -------------------------
+        duty_cycle = 8'd255;
+
+        #2600;
+
+        $finish;
+
+    end
+
+    // Display PWM output
+    always @(posedge clk) begin
+
+        $display(
+            "Time=%0t | Counter=%d | Duty=%d | PWM=%b",
+            $time,
+            DUT.counter,
+            duty_cycle,
+            pwm_out
+        );
+
+    end
+
+endmodule
